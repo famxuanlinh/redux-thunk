@@ -17,13 +17,14 @@ export const setupServer = () => {
       });
 
       this.post("/api/updateTodo", (schema, request) => {
-        const payload = JSON.parse(request.requestBody);
+        const id = JSON.parse(request.requestBody);
 
         //Khi cập nhật mình sẽ kiếm cái id của todo đấy
-        const currentTodo = schema.todos.find(payload.id);
+        const currentTodo = schema.todos.find(id);
 
         //Và mình update lại hết những gì nó có lên
-        currentTodo.update(payload);
+        currentTodo.update({ completed: !currentTodo.completed });
+        return currentTodo;
       });
     },
   });

@@ -46,13 +46,18 @@ const todosSlice = createSlice({
       })
       .addCase(fetchTodos.fulfilled, (state, action) => {
         state.todos = action.payload;
-        console.log("🚀 ~ file: todosSlice.js ~ line 49 ~ .addCase ~ action.payload", action.payload)
+
         state.status = "idle";
       })
       .addCase(addNewTodo.fulfilled, (state, action) => {
-        console.log('state',action.payload)
-        state.todos.push(action.payload)
+        state.todos.push(action.payload);
       })
+      .addCase(updateTodo.fulfilled, (state, action) => {
+        let currentTodo = state.todos.find(
+          (todo) => todo.id === action.payload
+        );
+        currentTodo = action.payload;
+      });
   },
 });
 
@@ -71,8 +76,22 @@ export const addNewTodo = createAsyncThunk(
       body: JSON.stringify(newTodo),
     });
     const data = await res.json();
+    return data.todos;
+    // console.log("data ", { data });
+  }
+);
 
-    console.log('data ',{ data });
+export const updateTodo = createAsyncThunk(
+  "todos/updateTodo",
+  async (updatedTodo) => {
+    const res = await fetch("/api/updateTodo", {
+      method: "POST",
+      body: JSON.stringify(updatedTodo),
+    });
+    const data = await res.json();
+    console.log("updateTodo", data)
+    
+    return data.todos;
   }
 );
 

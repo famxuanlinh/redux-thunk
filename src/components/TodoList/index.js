@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import { todosRemainingSelector } from "../../redux/selectors";
-import { addNewTodo} from "./todosSlice";
+import { addNewTodo } from "./todosSlice";
 
 export default function TodoList() {
   const [todoName, setTodoName] = useState("");
@@ -24,7 +24,7 @@ export default function TodoList() {
     //     completed: false,
     //   })
     // );
-
+    // debugger;
     dispatch(
       addNewTodo({
         id: uuidv4(),
